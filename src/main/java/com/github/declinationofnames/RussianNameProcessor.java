@@ -36,22 +36,22 @@ public final class RussianNameProcessor {
     static String sexM = "m";
     static String sexF = "f";
     // именительный
-    static String gcaseIm =   "nominative";
-    static String gcaseNom = "nominative";
+    static String gcaseIm =   "nom";
+    static String gcaseNom = "nom";
     // родительный
-    static String gcaseRod =  "genitive";
-    static String gcaseGen = "genitive";
+    static String gcaseRod =  "gen";
+    static String gcaseGen = "gen";
     // дательный
-    static String gcaseDat =  "dative";
+    static String gcaseDat =  "dat";
     // винительный
-    static String gcaseVin =  "accusative";
-    static String gcaseAcc = "accusative";
+    static String gcaseVin =  "acc";
+    static String gcaseAcc = "acc";
     // творительный
-    static String gcaseTvor = "instrumentative";
-    static String gcaseIns = "instrumentative";
+    static String gcaseTvor = "ins";
+    static String gcaseIns = "ins";
     // предложный
-    static String gcasePred = "prepositional";
-    static String gcasePos = "prepositional";
+    static String gcasePred = "pre";
+    static String gcasePos = "pre";
     
     private RussianNameProcessor() {        
     }
