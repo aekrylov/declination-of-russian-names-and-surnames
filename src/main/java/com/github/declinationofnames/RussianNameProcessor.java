@@ -276,4 +276,29 @@ public final class RussianNameProcessor {
         }
         return localWord;
     }
+
+    // склоняем слово (правим окончание)
+    private static String applyMod(final String word, RussianCase wordCase, final Object rule) {
+        final Map<String, List<String>> localRule = (Map<String, List<String>>) rule;
+        final String mod;
+
+        int ord = wordCase.ordinal() - 1;
+        if(ord < 0) {
+            mod = ".";
+        } else {
+            mod = localRule.get("mods").get(ord);
+        }
+
+        String localWord = word;
+        for(int i = 0, n = mod.length(); i < n; i++) {
+            String c = mod.substring(i, i + 1);
+            if (".".equals(c)) {
+            } else if ("-".equals(c)) {
+                localWord = localWord.substring(0, localWord.length() - 1);
+            } else {
+                localWord = localWord + c;
+            }
+        }
+        return localWord;
+    }
 }
