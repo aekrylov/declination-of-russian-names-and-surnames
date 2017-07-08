@@ -96,4 +96,13 @@ public class RussianName {
     public String middleName(String gcase) {
         return RussianNameProcessor.word(middleName, this.sex, "middleName", gcase);
     }
+
+    public String initials(String gcase) {
+        String lastNameCased = RussianNameProcessor.word(lastName, sex, "lastName", gcase);
+
+        if(middleName != null && !middleName.isEmpty())
+            return String.format("%s %s. %s.", lastNameCased, firstName.charAt(0), middleName.charAt(0) );
+        else
+            return String.format("%s %s.", lastNameCased, firstName.charAt(0) );
+    }
 }
