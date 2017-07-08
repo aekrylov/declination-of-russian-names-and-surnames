@@ -20,6 +20,9 @@ package com.github.declinationofnames;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.github.declinationofnames.RussianNameProcessor.SEX_F;
+import static com.github.declinationofnames.RussianNameProcessor.SEX_M;
+
 /**
  * Declinates Russian names and surnames.
  *
@@ -27,8 +30,6 @@ import java.util.regex.Pattern;
  * @version $Revision$ $Date$
  */
 public class RussianName {
-    private static final String SEX_M = "m";
-    private static final String SEX_F = "f";
     private final String lastName;
     private final String firstName;
     private final String middleName;
@@ -83,7 +84,7 @@ public class RussianName {
                     (fullNameSurnameLast ? "" : lastName(gcase) + " ")
                     + firstName(gcase) + " " + middleName(gcase) +
                     (fullNameSurnameLast ? " " + lastName(gcase) : "")
-            ).replaceAll("^ +| +$", "");
+            ).trim();
     }
     
     public String lastName(String gcase) {

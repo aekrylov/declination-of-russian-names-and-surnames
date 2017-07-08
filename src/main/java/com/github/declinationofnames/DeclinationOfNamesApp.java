@@ -49,11 +49,11 @@ public class DeclinationOfNamesApp extends javax.swing.JFrame {
         try {
             String value = jTextField1.getEditor().getItem().toString().replace(",", ".").trim();
             RussianName name = new RussianName(value);
-            jTextArea1.setText(name.fullName(RussianNameProcessor.gcaseRod));
-            jTextArea7.setText(name.fullName(RussianNameProcessor.gcaseDat));
-            jTextArea5.setText(name.fullName(RussianNameProcessor.gcaseVin));
-            jTextArea6.setText(name.fullName(RussianNameProcessor.gcaseTvor));
-            jTextArea4.setText(name.fullName(RussianNameProcessor.gcasePred));
+            jTextArea1.setText(name.fullName(RussianNameProcessor.CASE_GEN));
+            jTextArea7.setText(name.fullName(RussianNameProcessor.CASE_DAT));
+            jTextArea5.setText(name.fullName(RussianNameProcessor.CASE_ACC));
+            jTextArea6.setText(name.fullName(RussianNameProcessor.CASE_INS));
+            jTextArea4.setText(name.fullName(RussianNameProcessor.CASE_PRE));
 
         String bufferData = null;
         switch (jComboBox4.getSelectedIndex()) {

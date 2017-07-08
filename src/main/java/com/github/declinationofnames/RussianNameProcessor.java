@@ -17,12 +17,7 @@
  */
 package com.github.declinationofnames;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,27 +28,22 @@ import java.util.regex.Pattern;
  * @version $Revision$ $Date$
  */
 public final class RussianNameProcessor {
-    static String sexM = "m";
-    static String sexF = "f";
+    public static final String SEX_M = "m";
+    public static final String SEX_F = "f";
     // именительный
-    static String gcaseIm =   "nom";
-    static String gcaseNom = "nom";
+    public static final String CASE_NOM = "nom";
     // родительный
-    static String gcaseRod =  "gen";
-    static String gcaseGen = "gen";
+    public static final String CASE_GEN = "gen";
     // дательный
-    static String gcaseDat =  "dat";
+    public static final String CASE_DAT = "dat";
     // винительный
-    static String gcaseVin =  "acc";
-    static String gcaseAcc = "acc";
+    public static final String CASE_ACC = "acc";
     // творительный
-    static String gcaseTvor = "ins";
-    static String gcaseIns = "ins";
+    public static final String CASE_INS = "ins";
     // предложный
-    static String gcasePred = "pre";
-    static String gcasePos = "pre";
-    
-    private RussianNameProcessor() {        
+    public static final String CASE_PRE = "pre";
+
+    private RussianNameProcessor() {
     }
 
     static Map<String, Map<String, List<Object>>> rules = new HashMap<String,
@@ -67,62 +57,63 @@ public final class RussianNameProcessor {
             put("suffixes", new ArrayList<Object>() {{
                 add("f	б,в,г,д,ж,з,й,к,л,м,н,п,р,с,т,ф,х,ц,ч,ш,щ,ъ,ь . . . . .");
                 add("f	ска,цка  -ой -ой -ую -ой -ой");
+                add("f	щая,шая,чая       --ей --ей --ую --ей --ей");
                 add("f	ая       --ой --ой --ую --ой --ой");
                 add("	ская     --ой --ой --ую --ой --ой");
                 add("f	на       -ой -ой -у -ой -ой");
-				
+
                 add("	иной -я -ю -я -ем -е");
                 add("	уй   -я -ю -я -ем -е");
                 add("	ца   -ы -е -у -ей -е");
-					
+
                 add("	рих  а у а ом е");
-		
+
                 add("	ия                      . . . . .");
                 add("	иа,аа,оа,уа,ыа,еа,юа,эа . . . . .");
                 add("	их,ых                   . . . . .");
                 add("	о,е,э,и,ы,у,ю           . . . . .");
-		
+
                 add("	ова,ева            -ой -ой -у -ой -ой");
                 add("	га,ка,ха,ча,ща,жа  -и -е -у -ой -е");
                 add("	ца  -и -е -у -ей -е");
                 add("	а   -ы -е -у -ой -е");
-		
+
                 add("	ь   -я -ю -я -ем -е");
-		
+
                 add("	ия  -и -и -ю -ей -и");
                 add("	я   -и -е -ю -ей -е");
                 add("	ей  -я -ю -я -ем -е");
-		
+
                 add("	ян,ан,йн   а у а ом е");
-		
+
                 add("	ынец,обец  --ца --цу --ца --цем --це");
                 add("	онец,овец  --ца --цу --ца --цом --це");
-		
+
                 add("	ц,ч,ш,щ   а у а ем е");
-		
+
                 add("	ай  -я -ю -я -ем -е");
                 add("	гой,кой  -го -му -го --им -м");
                 add("	ой  -го -му -го --ым -м");
                 add("	ах,ив   а у а ом е");
-		
+
                 add("	ший,щий,жий,ний  --его --ему --его -м --ем");
                 add("	кий,ый   --ого --ому --ого -м --ом");
                 add("	ий       -я -ю -я -ем -и");
-					
+
                 add("	ок  --ка --ку --ка --ком --ке");
                 add("	ец  --ца --цу --ца --цом --це");
-					
+
                 add("	в,н   а у а ым е");
-                add("	б,г,д,ж,з,к,л,м,п,р,с,т,ф,х   а у а ом е");                
+                add("	б,г,д,ж,з,к,л,м,п,р,с,т,ф,х   а у а ом е");
             }});
         }});
         put("firstName", new HashMap<String, List<Object>>() {{
             put("exceptions", new ArrayList<Object>() {{
-                add("	лев    --ьва --ьву --ьва --ьвом --ьве");
-                add("	павел  --ла  --лу  --ла  --лом  --ле");
-                add("m	шота   . . . . .");
-                add("m	пётр   ---етра ---етру ---етра ---етром ---етре");
-                add("f	рашель,нинель,николь,габриэль,даниэль   . . . . .");
+                add("	^лев    --ьва --ьву --ьва --ьвом --ьве");
+                add("	^павел  --ла  --лу  --ла  --лом  --ле");
+                add("m	^шота   . . . . .");
+                add("m	^пётр   ---етра ---етру ---етра ---етром ---етре");
+                add("f	[оёеэую]ль   . . . . .");
             }});
             put("suffixes", new ArrayList<Object>() {{
                 add("	е,ё,и,о,у,ы,э,ю   . . . . .");
@@ -174,107 +165,77 @@ public final class RussianNameProcessor {
                         matcher.group(5), matcher.group(6), matcher.group(7)));
             }};
         }
-        return Collections.<String, List<String>>emptyMap();
+        return Collections.emptyMap();
     }
 
     // склоняем слово по указанному набору правил и исключений
     public static String word(String word, String sex, String wordType, String gcase) {
-        // исходное слово находится в именительном падеже
-        if (gcase.equals(gcaseNom)) {
+        RussianCase russianCase = RussianCase.valueOf(RussianCase.class, gcase.toUpperCase());
+        return word(word, sex, wordType, russianCase);
+    }
+
+    // склоняем слово по указанному набору правил и исключений
+    public static String word(String word, String sex, String wordType, RussianCase wordCase) {
+        if(word == null)
+            return "";
+
+        if (wordCase == RussianCase.NOM) {
             return word;
         }
 
         // составные слова
-        if (word != null && word.matches("[-]")) {
-                String[] list = word.split("-");
-                StringBuilder resultList = new StringBuilder();
-                for(int i = 0, n = list.length; i < n; i++) {
-                    if (i > 0) {
-                        resultList.append("-");
-                    }	
-                    resultList.append(word(list[i], sex, wordType, gcase));
-                }
-                return resultList.toString();
+        if (word.contains("-")) {
+            String[] list = word.split("-");
+            return Arrays.stream(list)
+                    .map(w -> word(w, sex, wordType, wordCase))
+                    .reduce((a,b) -> a + "-" + b)
+                    .get();
         }
 
         // Иванов И. И.
-        if (word != null && Pattern.compile("^[А-ЯЁ]\\.?$", Pattern.CASE_INSENSITIVE).matcher(word).matches()) {
+        if (Pattern.compile("^[А-ЯЁ]\\.?$", Pattern.CASE_INSENSITIVE).matcher(word).matches()) {
             return word;
         }
 
         Map<String, List<Object>> localRules = rules.get(wordType);
 
-        if (localRules.get("exceptions") !=  null) {
-                String pick = pick(word, sex, gcase, localRules.get("exceptions"), true);
-                if (pick != null) {
-                    return pick;
-                }
+        if (localRules.get("exceptions") != null) {
+            String pick = pick(word, sex, wordCase, localRules.get("exceptions"));
+            if (pick != null) {
+                return pick;
+            }
         }
-        String pick = pick(word, sex, gcase, localRules.get("suffixes"), false);
-        return pick != null ? pick : word == null ? "" : word;
+        String pick = pick(word, sex, wordCase, localRules.get("suffixes"));
+        return pick != null ? pick : word;
     }
 
-    // выбираем из списка правил первое подходящее и применяем 
-    private static String pick(String word, String sex, String gcase, List<Object> rules, boolean matchWholeWord) {
+    // выбираем из списка правил первое подходящее и применяем
+    private static String pick(String word, String sex, RussianCase gcase, List<Object> rules) {
         String wordLower = word == null ? "" : word.toLowerCase();
-        for (int i = 0, n = rules.size(); i < n; i++) {
-            if (ruleMatch(wordLower, sex, rules.get(i), matchWholeWord)) {
-                return applyMod(word, gcase, rules.get(i));
+        for (Object rule : rules) {
+            if (ruleMatch(wordLower, sex, rule)) {
+                return applyMod(word, gcase, rule);
             }
         }
         return null;
     }
-    
+
     // проверяем, подходит ли правило к слову
-    private static boolean ruleMatch(String word, String sex, final Object rule, boolean matchWholeWord) {
-        final Map<String, List<String>> localRule = (Map<String, List<String>>) rule;    
-        if (localRule.get("sex").get(0).equals(sexM) && sex.equals(sexF)) { 
-                // male by default
-                return false;
-            }
-            if (localRule.get("sex").get(0).equals(sexF) && !sex.equals(sexF)) {
-                return false;
-            }
-            for (int i = 0, n = localRule.get("test").size(); i < n; i++) {
-                    String test = matchWholeWord ? word : word.substring(
-                            Math.max(word.length() - localRule.get("test").get(i).length(), 0));
-                    if (test.equals(localRule.get("test").get(i))) {
-                        return true;
-                    }
-            }
-            return false;
-    }
-    
-    // склоняем слово (правим окончание)
-    private static String applyMod(final String word, String gcase, final Object rule) {
+    // checks that given rule matches given word ending
+    private static boolean ruleMatch(String word, String sex, final Object rule) {
         final Map<String, List<String>> localRule = (Map<String, List<String>>) rule;
-        final String mod;
-        if (gcase.equals(gcaseNom)) {
-            mod = ".";
-        } else if(gcase.equals(gcaseGen)) {
-            mod = localRule.get("mods").get(0);
-        } else if(gcase.equals(gcaseDat)) {
-            mod = localRule.get("mods").get(1);
-        } else if(gcase.equals(gcaseAcc)) {
-            mod = localRule.get("mods").get(2);
-        } else if(gcase.equals(gcaseIns)) {
-            mod = localRule.get("mods").get(3);
-        } else if(gcase.equals(gcasePos)) {
-            mod = localRule.get("mods").get(4);
-        } else {
-            throw new IllegalArgumentException("Unknown grammatic case: " + gcase);
+        String ruleSex = localRule.get("sex").get(0).trim();
+        if (!ruleSex.isEmpty() && !ruleSex.equals(sex)) {
+            return false;
         }
-        String localWord = word;
-        for(int i = 0, n = mod.length(); i < n; i++) {
-            String c = mod.substring(i, i + 1);
-            if (".".equals(c)) {
-            } else if ("-".equals(c)) {
-                localWord = localWord.substring(0, localWord.length() - 1);
-            } else {
-                localWord = localWord + c;
+
+        List<String> tests = localRule.get("test");
+        for (String test : tests) {
+            if (word.matches(".*" + test)) {
+                return true;
             }
         }
-        return localWord;
+        return false;
     }
 
     // склоняем слово (правим окончание)
@@ -283,20 +244,24 @@ public final class RussianNameProcessor {
         final String mod;
 
         int ord = wordCase.ordinal() - 1;
-        if(ord < 0) {
+        if (ord < 0) {
             mod = ".";
         } else {
             mod = localRule.get("mods").get(ord);
         }
 
         String localWord = word;
-        for(int i = 0, n = mod.length(); i < n; i++) {
+        for (int i = 0, n = mod.length(); i < n; i++) {
             String c = mod.substring(i, i + 1);
-            if (".".equals(c)) {
-            } else if ("-".equals(c)) {
-                localWord = localWord.substring(0, localWord.length() - 1);
-            } else {
-                localWord = localWord + c;
+            switch (c) {
+                case ".":
+                    break;
+                case "-":
+                    localWord = localWord.substring(0, localWord.length() - 1);
+                    break;
+                default:
+                    localWord = localWord + c;
+                    break;
             }
         }
         return localWord;
